@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: execucao-app
+  namespace: oficina
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: execucao-app
+  template:
+    metadata:
+      labels:
+        app: execucao-app
+    spec:
+      containers:
+        - name: execucao
+          image: itstoony/execucao-service:latest
+          ports:
+            - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: execucao-config
+          env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: execucao-secrets
+                  key: db-password
+            - name: OFICINA_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: execucao-secrets
+                  key: jwt-secret
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: execucao-secrets
+                  key: rabbitmq-password
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            failureThreshold: 20
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 60
+            periodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: execucao-app
+  namespace: oficina
+spec:
+  selector:
+    app: execucao-app
+  ports:
+    - port: 8081
+      targetPort: 8081
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: execucao-db
+  namespace: oficina
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: execucao-db
+  template:
+    metadata:
+      labels:
+        app: execucao-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          env:
+            - name: POSTGRES_DB
+              value: execucao
+            - name: POSTGRES_USER
+              value: execucao
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: execucao-secrets
+                  key: db-password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-data
+      volumes:
+        - name: db-data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: execucao-db
+  namespace: oficina
+spec:
+  selector:
+    app: execucao-db
+  ports:
+    - port: 5432
+      targetPort: 5432

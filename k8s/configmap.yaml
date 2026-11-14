@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: execucao-config
+  namespace: oficina
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://execucao-db:5432/execucao"
+  SPRING_DATASOURCE_USERNAME: "execucao"
+  SPRING_PROFILES_ACTIVE: "prod"
+  RABBITMQ_HOST: "rabbitmq"
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_USERNAME: "guest"
