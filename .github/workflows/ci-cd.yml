@@ -57,7 +57,7 @@ jobs:
             -Dsonar.projectKey=itstoony_oficina-execucao-service \
             -Dsonar.organization=itstoony \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.token=$SONAR_TOKEN
 
   docker:
     name: Build e Push Docker
