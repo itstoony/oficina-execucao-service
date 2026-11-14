@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "Execução Service — Oficina Mecânica",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Coleção completa do Execução Service — Fase 4 FIAP"
+  },
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:8081"},
+    {"key": "token", "value": ""},
+    {"key": "pecaId", "value": ""},
+    {"key": "osId", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login Admin",
+          "event": [{"listen": "test", "script": {"exec": ["var r = pm.response.json();", "pm.collectionVariables.set('token', r.token);"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {"mode": "raw", "raw": "{\n  \"login\": \"admin\",\n  \"senha\": \"admin123\"\n}"}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Peças",
+      "item": [
+        {
+          "name": "Cadastrar Peça",
+          "event": [{"listen": "test", "script": {"exec": ["var r = pm.response.json();", "pm.collectionVariables.set('pecaId', r.id);"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/pecas",
+            "body": {"mode": "raw", "raw": "{\n  \"nome\": \"Filtro de óleo\",\n  \"descricao\": \"Filtro de óleo motor\",\n  \"qtdEstoque\": 20,\n  \"qtdMinima\": 5,\n  \"precoUnitario\": 50.00\n}"}
+          }
+        },
+        {
+          "name": "Listar Peças",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/pecas"
+          }
+        },
+        {
+          "name": "Listar Peças Críticas",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/pecas/criticas"
+          }
+        },
+        {
+          "name": "Buscar Peça por ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/pecas/{{pecaId}}"
+          }
+        },
+        {
+          "name": "Atualizar Peça",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/pecas/{{pecaId}}",
+            "body": {"mode": "raw", "raw": "{\n  \"nome\": \"Filtro de óleo premium\",\n  \"descricao\": \"Filtro de óleo motor premium\",\n  \"qtdMinima\": 3,\n  \"precoUnitario\": 65.00\n}"}
+          }
+        },
+        {
+          "name": "Entrada de Estoque",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/pecas/{{pecaId}}/entrada",
+            "body": {"mode": "raw", "raw": "{\n  \"quantidade\": 10,\n  \"observacao\": \"Reposição mensal\"\n}"}
+          }
+        },
+        {
+          "name": "Histórico de Movimentações",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/pecas/{{pecaId}}/movimentacoes"
+          }
+        },
+        {
+          "name": "Remover Peça",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/pecas/{{pecaId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fila de Execução",
+      "item": [
+        {
+          "name": "Listar Fila",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/fila"
+          }
+        },
+        {
+          "name": "Iniciar Execução",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/fila/{{osId}}/iniciar"
+          }
+        },
+        {
+          "name": "Finalizar Execução",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{baseUrl}}/api/execucao/fila/{{osId}}/finalizar"
+          }
+        }
+      ]
+    }
+  ]
+}

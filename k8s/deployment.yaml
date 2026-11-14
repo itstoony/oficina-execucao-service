@@ -39,6 +39,13 @@ spec:
                 secretKeyRef:
                   name: execucao-secrets
                   key: rabbitmq-password
+            - name: NEW_RELIC_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: execucao-secrets
+                  key: newrelic-license-key
+            - name: NEW_RELIC_APP_NAME
+              value: oficina-execucao-service-prod
           resources:
             requests:
               cpu: "250m"
