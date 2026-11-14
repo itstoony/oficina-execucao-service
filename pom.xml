@@ -171,6 +171,16 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
+                <configuration>
+                    <excludes>
+                        <exclude>br/com/fiap/execucao/ExecucaoServiceApplication.class</exclude>
+                        <exclude>br/com/fiap/execucao/config/**</exclude>
+                        <exclude>br/com/fiap/execucao/adapter/**</exclude>
+                        <exclude>br/com/fiap/execucao/domain/**</exclude>
+                        <exclude>br/com/fiap/execucao/application/port/**</exclude>
+                        <exclude>br/com/fiap/execucao/shared/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
