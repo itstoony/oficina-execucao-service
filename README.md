@@ -123,7 +123,12 @@ OS Service publica os.cancelada
 # Relatório: target/site/jacoco/index.html
 ```
 
-> **Evidência de cobertura:** adicione aqui o print do relatório JaCoCo após rodar `./mvnw verify`
+![JaCoCo Coverage](docs/jacoco-coverage.png)
+
+| Pacote | Instruções | Branches | Linhas |
+|--------|-----------|----------|--------|
+| execucao.application.service | 89% | 78% | 122 |
+| **Total** | **89%** | **78%** | **122** |
 
 ---
 
