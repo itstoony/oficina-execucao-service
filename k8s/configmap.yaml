@@ -10,3 +10,4 @@ data:
   RABBITMQ_HOST: "rabbitmq"
   RABBITMQ_PORT: "5672"
   RABBITMQ_USERNAME: "guest"
+  NEW_RELIC_AGENT_ENABLED: "false"
