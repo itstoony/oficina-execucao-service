@@ -18,6 +18,7 @@ spec:
       containers:
         - name: execucao
           image: itstoony/execucao-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           envFrom:
