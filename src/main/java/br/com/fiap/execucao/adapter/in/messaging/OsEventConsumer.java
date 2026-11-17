@@ -39,7 +39,7 @@ public class OsEventConsumer {
         UUID osId = UUID.fromString(payload.get("osId").toString());
 
         @SuppressWarnings("unchecked")
-        List<Map<String, Object>> itensPeca = (List<Map<String, Object>>) payload.get("itensPeca");
+        List<Map<String, Object>> itensPeca = (List<Map<String, Object>>) payload.get("pecas");
 
         if (itensPeca == null || itensPeca.isEmpty()) {
             eventoPublicador.publicarEstoqueReservado(osId);
