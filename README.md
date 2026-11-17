@@ -6,6 +6,14 @@ Microsserviço responsável pelo **estoque de peças** e pela **fila de execuç�
 
 ---
 
+## Documentação de Arquitetura
+
+Para diagramas detalhados (componentes, sequência, ER, Hexagonal, gestão de estoque, Saga flows) consulte:
+
+**[docs/ARQUITETURA.md](docs/ARQUITETURA.md)**
+
+---
+
 ## Arquitetura
 
 ```
