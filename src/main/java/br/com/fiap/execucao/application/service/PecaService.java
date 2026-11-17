@@ -74,6 +74,9 @@ public class PecaService implements PecaUseCase {
         peca.setNome(request.nome());
         peca.setPrecoUnitario(request.precoUnitario());
         peca.setQtdMinima(request.qtdMinima());
+        if (request.qtdEstoque() != null) {
+            peca.setQtdEstoque(request.qtdEstoque());
+        }
         return toResponse(pecaRepository.salvar(peca));
     }
 

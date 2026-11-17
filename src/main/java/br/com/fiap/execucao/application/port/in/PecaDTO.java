@@ -23,7 +23,8 @@ public class PecaDTO {
     public record AtualizarRequest(
             @NotBlank String nome,
             @NotNull @Positive BigDecimal precoUnitario,
-            @NotNull @Min(0) Integer qtdMinima
+            @NotNull @Min(0) Integer qtdMinima,
+            @Min(0) Integer qtdEstoque
     ) {}
 
     public record EntradaRequest(
