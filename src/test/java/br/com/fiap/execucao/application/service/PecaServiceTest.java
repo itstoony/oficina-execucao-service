@@ -98,7 +98,7 @@ class PecaServiceTest {
 
     @Test
     void deveAtualizarPecaComSucesso() {
-        var request = new PecaDTO.AtualizarRequest("Filtro atualizado", new BigDecimal("30.00"), 3);
+        var request = new PecaDTO.AtualizarRequest("Filtro atualizado", new BigDecimal("30.00"), 3, null);
         when(pecaRepository.buscarPorId(pecaPadrao.getId())).thenReturn(Optional.of(pecaPadrao));
         when(pecaRepository.salvar(any())).thenReturn(pecaPadrao);
 
